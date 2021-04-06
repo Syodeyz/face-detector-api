@@ -15,11 +15,8 @@ const database = knex({
     client:'pg',
     version:'13.2',
     connection: {
-        host: '127.0.0.1',
-        port: '5434',
-        user: 'postgres',
-        password:'postgres',
-        database:'facedb'
+        connectionString: process.env.DATABASE_URL,
+        ssl:true
     }
 });
 
@@ -41,7 +38,7 @@ app.put('/image', (req, res) => entries.handleEntries(req, res, database));
     
 app.post('/imageurl', (req, res) => entries.handleApiCall(req, res));
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
         console.log('app is listening');
 });
     

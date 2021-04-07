@@ -10,7 +10,10 @@ function validateEmail(email){
 const handleRegister = (req, res, database, bcrypt) => {
     const {email, name, password} = req.body;
     if(!validateEmail(email) || !name || !password) return res.status(404).json("please, give correct credentials");
-    const hash = bcrypt.hashSync(password);
+    const hash = async () => {
+        return await bcrypt.hash(password, rounds)    
+    }
+
     database.transaction(trx => {
         trx.insert({
             hash:hash,
